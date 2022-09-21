@@ -200,7 +200,7 @@ namespace WindowsFormsApp1_Topolja
             }
             else if (e.Node.Text == "Omavorm-Myform")
             {
-                MinuVorm oma = new MinuVorm("Muusika","Muusika?","");
+                MinuVorm oma = new MinuVorm("Muusika","Muusika?");
                 oma.ShowDialog();
             }
         }
