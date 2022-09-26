@@ -7,20 +7,30 @@ using System.Windows.Forms;
 using System.Media;
 using System.Drawing;
 using System.Media;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
+using System.Collections;
 
 namespace WindowsFormsApp1_Topolja
 {
     public class MinuVorm:Form
     {
-        RadioButton rnupp1, rnupp2, rnupp3;
-        string Fail;
-        string musicList = new[] { @"..\..\m1.wav", @"..\..\m2.wav", @"..\..\m3.wav" };
+        RadioButton rnupp1, rnupp2, rnupp3, rnupp4;
+        string Fail=" ";
+        private string[] musicList = { @"..\..\m1.wav", @"..\..\m2.wav", @"..\..\m3.wav", @"..\..\m4.wav" };
         Random r = new Random();
-        string music1 = musicList[Random.Next(musicList.Length)];
-        public MinuVorm() { }
+
+        private string muusika1, muusika2, muusika3 = " ";
+        private System.Media.SoundPlayer m1, m2, m3 = new SoundPlayer();
+
+        public MinuVorm() 
+        {
+
+        }
+
         public MinuVorm(string Pealkiri, string Nupp)
         {
-            this.ClientSize = new System.Drawing.Size(300, 300);
+
+            this.ClientSize = new System.Drawing.Size(320, 200);
             this.Text = Pealkiri;
 
             Button nupp = new Button
@@ -51,8 +61,7 @@ namespace WindowsFormsApp1_Topolja
             var vastus = MessageBox.Show("Kas tahad muusikat kuulata?", "Küsimus", MessageBoxButtons.YesNo);
             if (vastus==DialogResult.Yes)
             {
-                using (var muusika=new SoundPlayer(Fail))
-                {
+
                     rnupp1 = new RadioButton
                     {
                         Text = "1",
@@ -74,16 +83,26 @@ namespace WindowsFormsApp1_Topolja
                         Width = 80,
                         Location = new Point(rnupp1.Width + rnupp2.Width)
                     };
+                    rnupp4 = new RadioButton
+                    {
+                        Text = "Uus laulud",
+                        ForeColor = Color.White,
+                        BackColor = Color.Tomato,
+                        Width = 90,
+                        Location = new Point(rnupp1.Width + rnupp2.Width +rnupp3.Width)
+                    };
                     this.Controls.Add(rnupp1);
                     this.Controls.Add(rnupp2);
                     this.Controls.Add(rnupp3);
+                    this.Controls.Add(rnupp4);
 
                     rnupp1.CheckedChanged += new EventHandler(rnupp_changed);
                     rnupp2.CheckedChanged += new EventHandler(rnupp_changed);
                     rnupp3.CheckedChanged += new EventHandler(rnupp_changed);
-                    //MessageBox.Show("Music!");
-                    //muusika.Play();
-                }
+                    rnupp4.CheckedChanged += new EventHandler(rnupp_changed);
+                //MessageBox.Show("Music!");
+                //muusika.Play();
+
             }
             else
             {
@@ -91,26 +110,43 @@ namespace WindowsFormsApp1_Topolja
             }
         }
 
-        private void rnupp_changed(object sender, EventArgs e)
+        void rnupp_changed(object sender, EventArgs e)
         {
-            var muusika1 = new SoundPlayer(music1);
-            var muusika2 = new SoundPlayer(music2);
-            var muusika3 = new SoundPlayer(music3);
+            if (rnupp4.Checked)
+            {
+            while (true)
+            {
+                muusika1 = musicList[r.Next(musicList.Length)];
+                muusika2 = musicList[r.Next(musicList.Length)];
+                muusika3 = musicList[r.Next(musicList.Length)];
+                if (muusika1 != muusika2 && muusika1 != muusika3 && muusika2 != muusika3)
+                {
+                    break;
+                }
+            }
+            rnupp4.Checked = false;
+            }
+            m1 = new SoundPlayer(muusika1);
+            m2 = new SoundPlayer(muusika2);
+            m3 = new SoundPlayer(muusika3);
+            rnupp1.Text = muusika1.Remove(0,6);
+            rnupp2.Text = muusika2.Remove(0,6);
+            rnupp3.Text = muusika3.Remove(0,6);
 
             if (rnupp1.Checked)
             {
-                muusika1.Play();
-                MessageBox.Show("Music1!");
+                m1.Play();
+                //MessageBox.Show(muusika1);
             }
             else if (rnupp2.Checked)
             {
-                muusika2.Play();
-                MessageBox.Show("Music2!");
+                m2.Play();
+                //MessageBox.Show(muusika2);
             }
             else if (rnupp3.Checked)
             {
-                muusika3.Play();
-                MessageBox.Show("Music3!");
+                m3.Play();
+                //MessageBox.Show(muusika3);
             }
         }
     }
