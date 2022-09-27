@@ -16,8 +16,12 @@ namespace WindowsFormsApp1_Topolja
     {
         RadioButton rnupp1, rnupp2, rnupp3, rnupp4;
         string Fail=" ";
-        private string[] musicList = { @"..\..\m1.wav", @"..\..\m2.wav", @"..\..\m3.wav", @"..\..\m4.wav" };
+        private string[] musicList = { @"..\..\My Girlfriend's Birthday Is Today.wav", @"..\..\Narcos.wav", @"..\..\Stereo Madness.wav", @"..\..\Which Autumn In Camps.wav" };
+        private string[] imageList = { @"..\..\My Girlfriend's Birthday Is Today.jpg", @"..\..\Narcos.jpg", @"..\..\Stereo Madness.jpg", @"..\..\Which Autumn In Camps.jpg" };
+
         Random r = new Random();
+        PictureBox pilt;
+
 
         private string muusika1, muusika2, muusika3 = " ";
         private System.Media.SoundPlayer m1, m2, m3 = new SoundPlayer();
@@ -30,14 +34,14 @@ namespace WindowsFormsApp1_Topolja
         public MinuVorm(string Pealkiri, string Nupp)
         {
 
-            this.ClientSize = new System.Drawing.Size(320, 200);
+            this.ClientSize = new System.Drawing.Size(100, 100);
             this.Text = Pealkiri;
 
             Button nupp = new Button
             {
                 Text = Nupp,
-                Location = new System.Drawing.Point(50,50),
-                Size= new System.Drawing.Size(100,100),
+                Location = new System.Drawing.Point(35,35),
+                Size= new System.Drawing.Size(50,30),
                 BackColor = System.Drawing.Color.RosyBrown
             };
 
@@ -66,22 +70,22 @@ namespace WindowsFormsApp1_Topolja
                     {
                         Text = "1",
                         ForeColor = Color.Black,
-                        Width = 80,
+                        Width = 170,
                         Location = new Point()
                     };
                     rnupp2 = new RadioButton
                     {
                         Text = "2",
                         ForeColor = Color.Black,
-                        Width = 80,
-                        Location = new Point(rnupp1.Width)
+                        Width = 170,
+                        Location = new Point(0, rnupp1.Height)
                     };
                     rnupp3 = new RadioButton
                     {
                         Text = "3",
                         ForeColor = Color.Black,
-                        Width = 80,
-                        Location = new Point(rnupp1.Width + rnupp2.Width)
+                        Width = 170,
+                        Location = new Point(0, rnupp1.Height+rnupp2.Height)
                     };
                     rnupp4 = new RadioButton
                     {
@@ -89,12 +93,20 @@ namespace WindowsFormsApp1_Topolja
                         ForeColor = Color.White,
                         BackColor = Color.Tomato,
                         Width = 90,
-                        Location = new Point(rnupp1.Width + rnupp2.Width +rnupp3.Width)
+                        Location = new Point(0, rnupp1.Height + rnupp2.Height + rnupp3.Height)
+                    };
+                    pilt = new PictureBox
+                    {
+                        Image = new Bitmap(@"..\..\a.jpg"),
+                        Location = new Point(170),
+                        Size = new Size(100, 100),
+                        SizeMode = PictureBoxSizeMode.Zoom
                     };
                     this.Controls.Add(rnupp1);
                     this.Controls.Add(rnupp2);
                     this.Controls.Add(rnupp3);
                     this.Controls.Add(rnupp4);
+                    this.Controls.Add(pilt);
 
                     rnupp1.CheckedChanged += new EventHandler(rnupp_changed);
                     rnupp2.CheckedChanged += new EventHandler(rnupp_changed);
@@ -102,6 +114,9 @@ namespace WindowsFormsApp1_Topolja
                     rnupp4.CheckedChanged += new EventHandler(rnupp_changed);
                 //MessageBox.Show("Music!");
                 //muusika.Play();
+                nupp_sender.Hide();
+                pilt.Hide();
+                this.ClientSize = new System.Drawing.Size(300, 100);
 
             }
             else
@@ -126,28 +141,41 @@ namespace WindowsFormsApp1_Topolja
             }
             rnupp4.Checked = false;
             }
-            m1 = new SoundPlayer(muusika1);
-            m2 = new SoundPlayer(muusika2);
-            m3 = new SoundPlayer(muusika3);
-            rnupp1.Text = muusika1.Remove(0,6);
-            rnupp2.Text = muusika2.Remove(0,6);
-            rnupp3.Text = muusika3.Remove(0,6);
+            if (muusika1 != " " && muusika2 != " " && muusika3 != " ")
+            {
+                m1 = new SoundPlayer(muusika1);
+                m2 = new SoundPlayer(muusika2);
+                m3 = new SoundPlayer(muusika3);
 
-            if (rnupp1.Checked)
-            {
-                m1.Play();
-                //MessageBox.Show(muusika1);
+                string a1 = muusika1.Remove(0,6);
+                string a2 = muusika2.Remove(0,6);
+                string a3 = muusika3.Remove(0,6);
+
+                rnupp1.Text = a1.Remove(a1.Length - 4);
+                rnupp2.Text = a2.Remove(a2.Length - 4);
+                rnupp3.Text = a3.Remove(a3.Length - 4);
+
+                if (rnupp1.Checked)
+                {
+                    m1.Play();
+                    //MessageBox.Show(muusika1);
+                }
+                else if (rnupp2.Checked)
+                {
+                    m2.Play();
+                    //MessageBox.Show(muusika2);
+                }
+                else if (rnupp3.Checked)
+                {
+                    m3.Play();
+                    //MessageBox.Show(muusika3);
+                }
             }
-            else if (rnupp2.Checked)
+            else
             {
-                m2.Play();
-                //MessageBox.Show(muusika2);
+                MessageBox.Show("Laulud ei ole veel uuendatud");
             }
-            else if (rnupp3.Checked)
-            {
-                m3.Play();
-                //MessageBox.Show(muusika3);
-            }
+
         }
     }
 }
