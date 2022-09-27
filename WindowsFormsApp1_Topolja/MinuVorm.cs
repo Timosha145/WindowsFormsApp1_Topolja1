@@ -157,16 +157,22 @@ namespace WindowsFormsApp1_Topolja
 
                 if (rnupp1.Checked)
                 {
+                    pilt.Show();
+                    pilt.Image = new Bitmap(imageList[Array.IndexOf(musicList, muusika1)]);
                     m1.Play();
                     //MessageBox.Show(muusika1);
                 }
                 else if (rnupp2.Checked)
                 {
+                    pilt.Show();
+                    pilt.Image = new Bitmap(imageList[Array.IndexOf(musicList, muusika2)]);
                     m2.Play();
                     //MessageBox.Show(muusika2);
                 }
                 else if (rnupp3.Checked)
                 {
+                    pilt.Show();
+                    pilt.Image = new Bitmap(imageList[Array.IndexOf(musicList, muusika3)]);
                     m3.Play();
                     //MessageBox.Show(muusika3);
                 }
